@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/progress-indicator",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Unopinionated Progress Indicator",
   "main": "src/ProgressIndicator.vue",
   "repository": {
