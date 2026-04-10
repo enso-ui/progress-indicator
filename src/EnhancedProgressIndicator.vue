@@ -9,7 +9,7 @@
             <div class="level-item">
                 <span class="icon"
                     :style="{'color': color}">
-                    <fa :icon="inverted ? 'check-circle' : 'exclamation-circle'"
+                    <fa :icon="inverted ? faCircleCheck : faCircleExclamation"
                         size="sm"/>
                 </span>
             </div>
@@ -20,11 +20,8 @@
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import Gradient from 'javascript-color-gradient';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import ProgressIndicator from './ProgressIndicator.vue';
-
-library.add(faCheckCircle, faExclamationCircle);
 
 export default {
     name: 'EnhancedProgressIndicator',
@@ -79,6 +76,8 @@ export default {
     data: () => ({
         color: null,
         gradient: new Gradient(),
+        faCircleCheck,
+        faCircleExclamation,
     }),
 
     computed: {
