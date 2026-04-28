@@ -19,9 +19,32 @@
 
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
-import Gradient from 'javascript-color-gradient';
 import { faCircleCheck, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import ProgressIndicator from './ProgressIndicator.vue';
+
+const hexToRgb = hex => {
+    const value = hex.replace('#', '');
+    const normalized = value.length === 3
+        ? value.split('').map(char => char + char).join('')
+        : value;
+    return {
+        r: Number.parseInt(normalized.slice(0, 2), 16),
+        g: Number.parseInt(normalized.slice(2, 4), 16),
+        b: Number.parseInt(normalized.slice(4, 6), 16),
+    };
+};
+
+const hex = value => value.toString(16).padStart(2, '0');
+
+const gradientColor = (from, to, percentage) => {
+    const start = hexToRgb(from);
+    const end = hexToRgb(to);
+    const ratio = Math.min(Math.max(percentage, 1), 100) / 100;
+
+    return `#${hex(Math.round(start.r + (end.r - start.r) * ratio))}`
+        + `${hex(Math.round(start.g + (end.g - start.g) * ratio))}`
+        + `${hex(Math.round(start.b + (end.b - start.b) * ratio))}`;
+};
 
 export default {
     name: 'EnhancedProgressIndicator',
@@ -75,7 +98,6 @@ export default {
 
     data: () => ({
         color: null,
-        gradient: new Gradient(),
         faCircleCheck,
         faCircleExclamation,
     }),
@@ -107,12 +129,9 @@ export default {
                 ? [this.thresholdColor, this.aboveThresholdColor]
                 : [this.thresholdColor, this.belowThresholdColor];
 
-            this.gradient.setMidpoint(100)
-                .setGradient(...colors);
-
             this.color = this.inThreshold
                 ? this.thresholdColor
-                : this.gradient.getColor(this.gradientIndex);
+                : gradientColor(...colors, this.gradientIndex);
         },
     },
 };
